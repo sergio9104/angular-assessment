@@ -16,8 +16,8 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Libraries used
 
- `@ngrx/store`   (https://github.com/ngrx/platform/blob/master/docs/store/README.md).
- `@ngrx/effects` (https://github.com/ngrx/platform/blob/master/docs/effects/README.md).
+ `@ngrx/store`   (https://github.com/ngrx/platform/blob/master/docs/store/README.md).<br/>
+ `@ngrx/effects` (https://github.com/ngrx/platform/blob/master/docs/effects/README.md).<br/>
  `@angular/material` (https://material.angular.io/guide/getting-started).
  
 
