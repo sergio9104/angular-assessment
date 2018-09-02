@@ -2,6 +2,28 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  MatCheckboxModule,
+  MatPaginatorModule,
+  MatCardModule,
+  MatProgressSpinnerModule,
+  MatMenuModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatSortModule,
+  MatTableModule,
+  MatDatepickerModule,
+  MatSlideToggleModule,
+  MatNativeDateModule,
+  MatRadioModule,
+  MatButtonToggleModule
+} from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -27,9 +49,49 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    StoreModule.forRoot({ employees: employeesReducer })
+    StoreModule.forRoot({ employees: employeesReducer }),
+    BrowserAnimationsModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSortModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatNativeDateModule,
+    MatRadioModule,
+    MatButtonToggleModule
   ],
-  exports: [ RouterModule ],
+  exports: [
+    RouterModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatMenuModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSortModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatSlideToggleModule,
+    MatNativeDateModule,
+    MatRadioModule,
+    MatButtonToggleModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

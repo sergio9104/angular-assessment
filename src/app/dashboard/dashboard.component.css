@@ -1,0 +1,38 @@
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.mat-elevation-z8 {
+    margin-bottom: 25px;
+}
+
+td, th {
+    width: 25%;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+}
+
+.search-title {
+    margin-right: 27px;
+    font-size: 18px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.search-input {
+    width: 135px;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0 15px 20px;
+}

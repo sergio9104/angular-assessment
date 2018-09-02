@@ -1,3 +1,52 @@
-<p>
-  dashboard works!
-</p>
+<div class="search">
+  <h2 class="search-title">Employees</h2>
+    <mat-form-field class="search-input">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="search by anything">
+      </mat-form-field>
+</div>
+
+ 
+  
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name (job title) </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      </ng-container>
+  
+      <!-- Age Column -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Age </th>
+        <td mat-cell *matCellDef="let row"> {{row.age}}</td>
+      </ng-container>
+  
+      <!-- Username Column -->
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+        <td mat-cell *matCellDef="let row"> {{row.username}} </td>
+      </ng-container>
+  
+      <!-- Hire Date Column -->
+      <ng-container matColumnDef="hireDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Hire Date </th>
+        <td mat-cell *matCellDef="let row"> {{row.hireDate}} </td>
+      </ng-container>
+       <!-- Hire Date Column -->
+       <ng-container matColumnDef="icons">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let row"> {{row.icons}} </td>
+        </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+    <div  class="table-header">
+        <button mat-flat-button color="primary">Add new employee</button>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+
+  </div>
+
