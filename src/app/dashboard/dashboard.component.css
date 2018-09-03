@@ -28,11 +28,32 @@ td, th {
 }
 
 .search-input {
-    width: 135px;
+    width: 175px;
+}
+
+.search-icon{
+    position: relative;
+    top: 6px;
+    margin-right: 8px;
 }
 
 .table-header {
     display: flex;
     justify-content: space-between;
     padding: 15px 0 15px 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.icons{
+    display: flex;
+}
+
+.icons > * {
+    cursor: pointer;
+}
+
+.add-button{
+    height: 36px;
+    padding: 0px 16px;
 }

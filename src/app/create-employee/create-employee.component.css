@@ -1,20 +1,50 @@
-.newEmployee {
+.new-employee {
     display: flex;
     justify-content: space-between;
     padding: 35px 35px;
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 700px;
+    flex-wrap: wrap;
   }
 
-  .newEmployee > *{
+  .new-employee > *{
       display: flex;
       flex-direction: column;
       width: 300px;
 
   }
-  
+
+  .buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 190px;
+    margin: 30px 0px 0px 36px;
+    padding-bottom: 40px;
+  }
+
+  h3{
+    margin: 0 0 35px 0;
+    font-size: 18px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+
+  .mat-sort-header-button{
+      text-align: left;
+  }
+
   .area{
-    width: 179px;
-    margin-top: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 70px;
     margin-bottom: 18px;
+  }
+
+  .area-name{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin-right: 25px; 
+  }
+
+  
+  .area-buttons{
+    width: 179px;
   }

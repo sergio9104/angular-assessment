@@ -23,7 +23,7 @@ import {
   MatRadioModule,
   MatButtonToggleModule
 } from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -52,6 +52,7 @@ const routes: Routes = [
     StoreModule.forRoot({ employees: employeesReducer }),
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatCheckboxModule,
     MatPaginatorModule,
     MatCardModule,

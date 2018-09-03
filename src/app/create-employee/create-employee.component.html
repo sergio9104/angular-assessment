@@ -1,55 +1,69 @@
-<div class="newEmployee mat-elevation-z8">
-  <div>
-    <mat-form-field>
-      <input matInput placeholder="Name">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput [matDatepicker]="Dob" placeholder="Dob">
-      <mat-datepicker-toggle matSuffix [for]="Dob"></mat-datepicker-toggle>
-      <mat-datepicker #Dob></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-select placeholder="Country">
-        <mat-option value="option">Option</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Username">
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput [matDatepicker]="hireDate" placeholder="Hire Date">
-      <mat-datepicker-toggle matSuffix [for]="hireDate"></mat-datepicker-toggle>
-      <mat-datepicker #hireDate></mat-datepicker>
-    </mat-form-field>
-
-    <mat-slide-toggle labelPosition='before' color='primary'>Status</mat-slide-toggle>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="mat-elevation-z8">
+  <div class="new-employee">
+      <div>
+          <h3>New Employee</h3>
+          <mat-form-field>
+            <input matInput placeholder="Name" formControlName="name">
+          </mat-form-field>
+      
+          <mat-form-field>
+            <input matInput [matDatepicker]="Dob" placeholder="Dob" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="Dob"></mat-datepicker-toggle>
+            <mat-datepicker #Dob></mat-datepicker>
+          </mat-form-field>
+      
+          <mat-form-field>
+            <mat-select placeholder="Country"  formControlName="country">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Username" formControlName="username">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput  formControlName="hireDate" [matDatepicker]="hireDate" placeholder="Hire Date">
+            <mat-datepicker-toggle matSuffix [for]="hireDate"></mat-datepicker-toggle>
+            <mat-datepicker #hireDate></mat-datepicker>
+          </mat-form-field>
+      
+          <mat-slide-toggle formControlName="status"  labelPosition='before' color='primary'>Status</mat-slide-toggle>
+        
+        </div>
+        <div>
+          <div class="area">
+            <span class="area-name">Area</span>
+            
+              <mat-button-toggle-group formControlName="area" class="area-buttons" name="area" aria-label="Font Style">
+                  <mat-button-toggle  value="Services" checked=true>Services</mat-button-toggle>
+                  <mat-button-toggle  value="Kitchen">Kitchen</mat-button-toggle>
+                </mat-button-toggle-group>
+          </div>
+          
+      
+          <mat-form-field>
+            <mat-select formControlName="jobTitle" placeholder="Job title">
+              <mat-option value="Manager">Manager</mat-option>
+              <mat-option value="Host">Host</mat-option>
+              <mat-option value="Tuttofare">Tuttofare</mat-option>
+              <mat-option value="Waitress">Waitress</mat-option>
+              <mat-option value="Dinnig room manager">Dinnig room manager</mat-option>
+              <mat-option value="Chef">Chef</mat-option>
+              <mat-option value="Sous Chef">Sous Chef</mat-option>
+              <mat-option value="Dishwasher">Dishwasher</mat-option>
+              <mat-option value="Cook">Cook</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+              <span matPrefix>% &nbsp;</span>
+            <input matInput placeholder="Tip Rate" formControlName="tipRate">
+          </mat-form-field>
+        </div>
   </div>
-  <div>
-    <mat-button-toggle-group class="area" name="area" aria-label="Font Style">
-        <mat-button-toggle color='primary' value="Services" checked=true>Services</mat-button-toggle>
-        <mat-button-toggle color='primary' value="Kitchen">Kitchen</mat-button-toggle>
-      </mat-button-toggle-group>
-
-    <mat-form-field>
-      <mat-select placeholder="Job title">
-        <mat-option value="Manager">Manager</mat-option>
-        <mat-option value="Host">Host</mat-option>
-        <mat-option value="Tuttofare">Tuttofare</mat-option>
-        <mat-option value="Waitress">Waitress</mat-option>
-        <mat-option value="Dinnig room manager">Dinnig room manager</mat-option>
-        <mat-option value="Chef">Chef</mat-option>
-        <mat-option value="Sous Chef">Sous Chef</mat-option>
-        <mat-option value="Dishwasher">Dishwasher</mat-option>
-        <mat-option value="Cook">Cook</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Tip Rate">
-    </mat-form-field>
+  
+  <div class="buttons">
+      <button mat-button color="primary" routerLink="/"><mat-icon>keyboard_arrow_left</mat-icon> Back</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">Save</button>
   </div>
 
 
-
-</div>
+</form>
