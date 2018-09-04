@@ -24,17 +24,25 @@ import {
   MatButtonToggleModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
+import { JobTitleComponent } from './job-title/job-title.component';
+
+import { CountryService } from './services/countries.service';
+import { DeactiveEmployee } from './services/can-deactive.service';
+
+
 
 import { employeesReducer } from './employees.reducer';
 
+
 const routes: Routes = [
   { path: '', component: DashboardComponent },
-  { path: 'newuser', component: CreateEmployeeComponent },
+  { path: 'newuser', component: CreateEmployeeComponent, canDeactivate: [DeactiveEmployee]},
   { path: ':id', component: EditEmployeeComponent },
   { path: ':id?viewmode=:edit', component: EditEmployeeComponent }
 ];
@@ -44,12 +52,14 @@ const routes: Routes = [
     AppComponent,
     DashboardComponent,
     CreateEmployeeComponent,
-    EditEmployeeComponent
+    EditEmployeeComponent,
+    JobTitleComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot({ employees: employeesReducer }),
+    HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -93,7 +103,7 @@ const routes: Routes = [
     MatRadioModule,
     MatButtonToggleModule
   ],
-  providers: [],
+  providers: [CountryService, DeactiveEmployee],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

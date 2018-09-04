@@ -9,8 +9,7 @@ const initialState = [];
 export function employeesReducer(state: Array<Object> = initialState, action: Action) {
   switch (action.type) {
     case ADD:
-      return {...state, action};
-
+      return [...state, action.data];
     case EDIT:
         return state.map((value) =>{
             return value === action ? action : value;

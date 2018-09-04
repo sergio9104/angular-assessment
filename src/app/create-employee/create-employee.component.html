@@ -3,27 +3,45 @@
       <div>
           <h3>New Employee</h3>
           <mat-form-field>
-            <input matInput placeholder="Name" formControlName="name">
+            <input matInput placeholder="Name" formControlName="name" required>
+            <mat-error>
+             Name is required
+            </mat-error>
           </mat-form-field>
       
           <mat-form-field>
-            <input matInput [matDatepicker]="Dob" placeholder="Dob" formControlName="dob">
+            <input [max]="maxDateDob" matInput [matDatepicker]="Dob" placeholder="Dob *" formControlName="dob" required>
             <mat-datepicker-toggle matSuffix [for]="Dob"></mat-datepicker-toggle>
-            <mat-datepicker #Dob></mat-datepicker>
+            <mat-datepicker #Dob disabled="false"></mat-datepicker>
+            <mat-error>
+              Date of birth is required
+            </mat-error>
           </mat-form-field>
       
           <mat-form-field>
-            <mat-select placeholder="Country"  formControlName="country">
-              <mat-option value="option">Option</mat-option>
+            <mat-select placeholder="Country"  formControlName="country" required>
+              <mat-option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</mat-option>
             </mat-select>
+            <mat-error>
+              Country is required
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Username" formControlName="username">
+            <input matInput placeholder="Username" formControlName="username" required>
+            <mat-error *ngIf="!userForm.controls.username.value">
+              Username is required
+            </mat-error>
+            <mat-error *ngIf="userForm.controls.username.value">
+              Username can´t contain special characters
+            </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput  formControlName="hireDate" [matDatepicker]="hireDate" placeholder="Hire Date">
+            <input matInput  formControlName="hireDate" [matDatepicker]="hireDate"  [max]="maxDateHire" placeholder="Hire Date *" required>
             <mat-datepicker-toggle matSuffix [for]="hireDate"></mat-datepicker-toggle>
-            <mat-datepicker #hireDate></mat-datepicker>
+            <mat-datepicker #hireDate disabled="false"></mat-datepicker>
+            <mat-error>
+             Hire date is required
+            </mat-error>
           </mat-form-field>
       
           <mat-slide-toggle formControlName="status"  labelPosition='before' color='primary'>Status</mat-slide-toggle>
@@ -33,29 +51,23 @@
           <div class="area">
             <span class="area-name">Area</span>
             
-              <mat-button-toggle-group formControlName="area" class="area-buttons" name="area" aria-label="Font Style">
+              <mat-button-toggle-group (change)="areaChange" formControlName="area" class="area-buttons" name="area" aria-label="Font Style">
                   <mat-button-toggle  value="Services" checked=true>Services</mat-button-toggle>
                   <mat-button-toggle  value="Kitchen">Kitchen</mat-button-toggle>
                 </mat-button-toggle-group>
           </div>
           
-      
-          <mat-form-field>
-            <mat-select formControlName="jobTitle" placeholder="Job title">
-              <mat-option value="Manager">Manager</mat-option>
-              <mat-option value="Host">Host</mat-option>
-              <mat-option value="Tuttofare">Tuttofare</mat-option>
-              <mat-option value="Waitress">Waitress</mat-option>
-              <mat-option value="Dinnig room manager">Dinnig room manager</mat-option>
-              <mat-option value="Chef">Chef</mat-option>
-              <mat-option value="Sous Chef">Sous Chef</mat-option>
-              <mat-option value="Dishwasher">Dishwasher</mat-option>
-              <mat-option value="Cook">Cook</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
+          <app-job-title [group]="userForm"></app-job-title>
+          
+          <mat-form-field *ngIf="showTipRate">
               <span matPrefix>% &nbsp;</span>
-            <input matInput placeholder="Tip Rate" formControlName="tipRate">
+            <input matInput placeholder="Tip Rate" formControlName="tipRate" required>
+            <mat-error *ngIf="!userForm.controls.tipRate.value">
+              Tip rate is required
+            </mat-error>
+            <mat-error *ngIf="userForm.controls.tipRate.value">
+             Only numbers are accept
+            </mat-error>
           </mat-form-field>
         </div>
   </div>
