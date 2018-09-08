@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup} from '@angular/forms';
 
 @Component({
@@ -7,18 +7,12 @@ import { FormGroup} from '@angular/forms';
   styleUrls: ['./job-title.component.css']
   
 })
-export class JobTitleComponent implements OnInit, OnChanges {
+export class JobTitleComponent{
   @Input() group: FormGroup;
-  jobTitles: Array<string> = ["Manager", "Host", "Tuttofare", "Waitress", "Dinnig room manage"];
-  constructor() { }
-
-  ngOnInit() {
-    
-  }
-
-  ngOnChanges(){
-    
-  }
+  jobTitles: Array<string>
+  constructor() {
+    this.jobTitles = ["Manager", "Host", "Tuttofare", "Waitress", "Dinnig room manage"];
+   }
 
   jobTitlesValue(area){
     if(area === "Services"){  

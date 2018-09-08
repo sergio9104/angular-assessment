@@ -25,6 +25,7 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -44,7 +45,7 @@ const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'newuser', component: CreateEmployeeComponent, canDeactivate: [DeactiveEmployee]},
   { path: ':id', component: EditEmployeeComponent },
-  { path: ':id?viewmode=:edit', component: EditEmployeeComponent }
+  { path: ':id/view', component: EditEmployeeComponent }
 ];
 
 @NgModule({

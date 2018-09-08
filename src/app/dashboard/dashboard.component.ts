@@ -1,21 +1,18 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { REMOVE } from './../employees.reducer';
 
-export interface UserData {
-  id: string;
+export interface dataStructure {
+  id: number;
   name: string;
-  username:string;
+  username: string;
+  jobTitle:string;
   age: string;
   hireDate: string;
-  icons:string;
 }
-
-/** Constants used to fill up our data base. */
-const COLORS: string[] = ['maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple',
-  'fuchsia', 'lime', 'teal', 'aqua', 'blue', 'navy', 'black', 'gray'];
-const NAMES: string[] = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
-  'Charlotte', 'Theodore', 'Isla', 'Oliver', 'Isabella', 'Jasper',
-  'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'];
 
 @Component({
   selector: 'app-dashboard',
@@ -23,23 +20,38 @@ const NAMES: string[] = ['Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'age', 'username', 'hireDate', 'icons'];
-  dataSource: MatTableDataSource<UserData>;
+
+  usersSubscribe: Subscription;
+
+  displayedColumns: string[];
+  dataSource: MatTableDataSource<dataStructure>;
+  data: Array<dataStructure>;
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
-    // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+  constructor(private store: Store<any>, private router: Router) {
+    this.displayedColumns = ['name', 'age', 'username', 'hireDate', 'icons'];
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.usersSubscribe = this.store.subscribe((users) => {
+      this.data = users.employees.map((user => {
+        return {
+          id: user.id,
+          name: user.name,
+          jobTitle: user.jobTitle,
+          age: this.calculateAge(user.dob),
+          username: user.username,
+          hireDate: user.hireDate
+        }
+      }))
+      this.dataSource = new MatTableDataSource(this.data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
+
   }
 
   applyFilter(filterValue: string) {
@@ -50,20 +62,29 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.usersSubscribe.unsubscribe();
+  }
+
+  calculateAge(birthday) {
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+
+  edit(id) {
+    this.router.navigate(['/'+id]);
+  }
+
+  view(id) {
+    this.router.navigate(['/'+id+'/view']);
+  }
+
+  delete(id) {
+    this.store.dispatch({ type: REMOVE, id:id});
+  }
+
+
+
 }
 
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name =
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    age: Math.round(Math.random() * 100).toString(),
-    hireDate: COLORS[Math.round(Math.random() * (COLORS.length - 1))],
-    username:name,
-    icons:"icons"
-  };
-}

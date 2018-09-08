@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { JobTitleComponent } from './../job-title/job-title.component';
+import { CountryService } from './../services/countries.service';
+import { ADD } from './../employees.reducer';
 
 @Component({
   selector: 'app-edit-employee',
@@ -6,10 +13,81 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-employee.component.css']
 })
 export class EditEmployeeComponent implements OnInit {
+  @ViewChildren(JobTitleComponent) jobTitle !: QueryList<JobTitleComponent>;
 
-  constructor() { }
+  userForm:any;
+  areaSubscription: Subscription;
+  jobTitleSubscription: Subscription;
+  countriesSubscription: Subscription;
+
+  showTipRate: boolean;
+  isSubmited: boolean;
+  countries: any;
+
+  maxDateDob:Date;
+  maxDateHire:Date;
+  minDate:Date;
+
+
+  constructor(private countryService: CountryService, private store: Store<any>, private router: Router) {
+    this.userForm = new FormGroup({
+      id: new FormControl(new Date().getUTCMilliseconds()),
+      name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+      dob: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$"), Validators.maxLength(20)]),
+      hireDate: new FormControl('', [Validators.required]),
+      status: new FormControl(false),
+      area: new FormControl('Services'),
+      jobTitle: new FormControl('', [Validators.required]),
+      tipRate: new FormControl(''),
+    });
+    this.maxDateDob = this.getAgeValidation();
+    this.maxDateHire = new Date();
+    this.minDate = new Date("01/01/1900");
+    this.showTipRate = false;
+  }
 
   ngOnInit() {
+    this.subscriptions();
+  }
+
+  onSubmit() {
+    this.store.dispatch({ type: ADD, data: this.userForm.value });
+    this.isSubmited = true;
+    this.router.navigate(['/']);
+  }
+
+  subscriptions() {
+    this.areaSubscription = this.userForm.get('area').valueChanges.subscribe(val => {
+      this.jobTitle.first.jobTitlesValue(val)
+    });
+
+    this.jobTitleSubscription = this.userForm.get('jobTitle').valueChanges.subscribe(val => {
+      if (val === "Waitress" || val === "Dinnig room manage") {
+        this.userForm.get('tipRate').setValidators([Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,10})?$"), Validators.maxLength(6)]);
+        this.showTipRate = true;
+      } else {
+        this.userForm.get('tipRate').setValidators([]);
+        this.userForm.get('tipRate').setValue(null);       
+        this.showTipRate = false;
+      }
+    });
+
+    this.countriesSubscription = this.countryService.getCountries().subscribe(val => {
+      this.countries = val;
+    })
+  }
+
+  ngOnDestroy() {
+    this.areaSubscription.unsubscribe();
+    this.jobTitleSubscription.unsubscribe();
+    this.countriesSubscription.unsubscribe();
+  }
+
+  getAgeValidation() {
+    var today = new Date();
+    return new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
   }
 
 }

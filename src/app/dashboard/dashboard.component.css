@@ -7,8 +7,16 @@ table {
     width: 100%;
 }
 
-.mat-elevation-z8 {
+.table-content{
     margin-bottom: 25px;
+}
+
+.table-content .font-weight-bold{
+    font-weight: bold;
+}
+
+.table-content .icon{
+    color: gray;
 }
 
 td, th {

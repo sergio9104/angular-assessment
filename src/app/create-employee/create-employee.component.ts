@@ -8,24 +8,6 @@ import { CountryService } from './../services/countries.service';
 import { ADD } from './../employees.reducer';
 
 
-export interface UserData {
-  id: number;
-  name: string;
-  dob: Date;
-  country: string;
-  username: string;
-  hireDate: Date;
-  status: boolean;
-  area: string;
-  jobTitle: string;
-  tipRate: number;
-}
-
-interface AppState {
-  employees: Object;
-}
-
-
 @Component({
   selector: 'app-create-employee',
   templateUrl: './create-employee.component.html',
@@ -40,8 +22,8 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
   jobTitleSubscription: Subscription;
   countriesSubscription: Subscription;
 
-  showTipRate: Boolean;
-  isSubmited: Boolean;
+  showTipRate: boolean;
+  isSubmited: boolean;
   countries: any;
 
   maxDateDob:Date;
@@ -49,7 +31,7 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
   minDate:Date;
 
 
-  constructor(private countryService: CountryService, private store: Store<AppState>, private router: Router) {
+  constructor(private countryService: CountryService, private store: Store<any>, private router: Router) {
     this.userForm = new FormGroup({
       id: new FormControl(new Date().getUTCMilliseconds()),
       name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
