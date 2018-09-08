@@ -1,12 +1,10 @@
-import { Action } from '@ngrx/store';
-
 export const ADD = 'ADD';
 export const EDIT = 'EDIT';
 export const REMOVE = 'REMOVE';
 
 const initialState = [];
 
-export function employeesReducer(state: Array<Object> = initialState, action: Action) {
+export function employeesReducer(state: Array<Object> = initialState, action) {
   switch (action.type) {
     case ADD:
       return [...state, action.data];

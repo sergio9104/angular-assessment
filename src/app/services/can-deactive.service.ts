@@ -8,7 +8,7 @@ export class DeactiveEmployee implements CanDeactivate<CreateEmployeeComponent> 
 
   canDeactivate(target: CreateEmployeeComponent) {
     if(target.userForm.dirty && !target.isSubmited){
-        return window.confirm('Do you really want get out without save?');
+      return window.confirm('Do you really want to exit without save?');
     }
     return true;
   }

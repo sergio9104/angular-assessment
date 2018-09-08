@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { JobTitleComponent } from './../job-title/job-title.component';
 import { CountryService } from './../services/countries.service';
-import { ADD} from './../employees.reducer';
+import { ADD } from './../employees.reducer';
 
 
 export interface UserData {
@@ -35,39 +35,45 @@ interface AppState {
 export class CreateEmployeeComponent implements OnInit, OnDestroy {
   @ViewChildren(JobTitleComponent) jobTitle !: QueryList<JobTitleComponent>;
 
-  userForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    dob: new FormControl({ value: '', disabled: true }, [Validators.required]),
-    country: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required, Validators.pattern(".*\\S.*[a-zA-z0-9_-]")]),
-    hireDate: new FormControl({ value: '', disabled: true }, [Validators.required]),
-    status: new FormControl(false),
-    area: new FormControl('Services'),
-    jobTitle: new FormControl('', [Validators.required]),
-    tipRate: new FormControl(''),
-  });
-
+  userForm:any;
   areaSubscription: Subscription;
   jobTitleSubscription: Subscription;
   countriesSubscription: Subscription;
 
-  showTipRate: Boolean = false;
-  isSubmited: Boolean = false;
+  showTipRate: Boolean;
+  isSubmited: Boolean;
+  countries: any;
 
-  maxDateDob = this.getAgeValidation();
-  maxDateHire = new Date();
+  maxDateDob:Date;
+  maxDateHire:Date;
+  minDate:Date;
 
-  countries:any;
 
-  constructor(private countryService: CountryService, private store: Store<AppState>, private router: Router) { }
+  constructor(private countryService: CountryService, private store: Store<AppState>, private router: Router) {
+    this.userForm = new FormGroup({
+      id: new FormControl(new Date().getUTCMilliseconds()),
+      name: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+      dob: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
+      username: new FormControl('', [Validators.required, Validators.pattern("^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$"), Validators.maxLength(20)]),
+      hireDate: new FormControl('', [Validators.required]),
+      status: new FormControl(false),
+      area: new FormControl('Services'),
+      jobTitle: new FormControl('', [Validators.required]),
+      tipRate: new FormControl(''),
+    });
+    this.maxDateDob = this.getAgeValidation();
+    this.maxDateHire = new Date();
+    this.minDate = new Date("01/01/1900");
+    this.showTipRate = false;
+  }
 
   ngOnInit() {
-    console.log(this.userForm);
     this.subscriptions();
   }
 
   onSubmit() {
-    this.store.dispatch({type: ADD, data:this.userForm.value});
+    this.store.dispatch({ type: ADD, data: this.userForm.value });
     this.isSubmited = true;
     this.router.navigate(['/']);
   }
@@ -79,11 +85,11 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
     this.jobTitleSubscription = this.userForm.get('jobTitle').valueChanges.subscribe(val => {
       if (val === "Waitress" || val === "Dinnig room manage") {
-        this.userForm.get('tipRate').setValidators([Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,10})?$")]);
+        this.userForm.get('tipRate').setValidators([Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,10})?$"), Validators.maxLength(6)]);
         this.showTipRate = true;
       } else {
         this.userForm.get('tipRate').setValidators([]);
-        this.userForm.get('tipRate').setValue(null);
+        this.userForm.get('tipRate').setValue(null);       
         this.showTipRate = false;
       }
     });
@@ -103,5 +109,4 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
     var today = new Date();
     return new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
   }
-  //new Date().getUTCMilliseconds();
 }
