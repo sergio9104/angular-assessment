@@ -44,8 +44,7 @@ import { employeesReducer } from './employees.reducer';
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'newuser', component: CreateEmployeeComponent, canDeactivate: [DeactiveEmployee]},
-  { path: ':id', component: EditEmployeeComponent },
-  { path: ':id/view', component: EditEmployeeComponent }
+  { path: ':id/edit/:edit', component: EditEmployeeComponent }
 ];
 
 @NgModule({

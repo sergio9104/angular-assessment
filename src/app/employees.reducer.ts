@@ -19,19 +19,19 @@ const initialState = [{
     id: 1,
     name: 'Giacomo Guilizzoni',
     dob: new Date("01/01/1978"),
-    country: 'Italia',
+    country: 'Italy',
     username: 'Peldi',
     hireDate: new Date('2017/10/01'),
     status:false,
     area: 'Services',
-    jobTitle: 'Founder & CEO',
+    jobTitle: 'Host',
     tipRate: null,
   },
   {
     id: 2,
     name: 'Marco Botton',
     dob: new Date("01/01/1980"),
-    country: 'Italia',
+    country: 'Italy',
     username: 'Marcopolo',
     hireDate: new Date('2001/01/10'),
     status:false,
@@ -43,24 +43,24 @@ const initialState = [{
     id: 3,
     name: 'Mariah Moclachlan',
     dob: new Date("01/01/1977"),
-    country: 'Italia',
+    country: 'Italy',
     username: 'Patata',
     hireDate: new Date('2016/02/01'),
     status:false,
     area: 'Services',
-    jobTitle: 'Better Half',
-    tipRate: null,
+    jobTitle: 'Waitress',
+    tipRate: 0.11,
   },
   {
     id: 4,
     name: 'Valerie Liberty',
     dob: new Date("01/01/1988"),
-    country: 'Italia',
+    country: 'Italy',
     username: 'Val',
     hireDate: new Date('2018/03/02'),
     status:false,
     area: 'Services',
-    jobTitle: 'Head Chef',
+    jobTitle: 'Manager',
     tipRate: null,
   }];
 
@@ -70,9 +70,8 @@ export function employeesReducer(state: Array<objectState> = initialState, actio
       return [...state, action.data];
     case EDIT:
         return state.map((value) =>{
-            return value === action ? action : value;
+            return value.id === action.data.id ? action.data : value;
         }) 
-
     case REMOVE:
         return state.filter(value => value.id !== action.id);
 

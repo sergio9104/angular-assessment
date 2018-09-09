@@ -73,11 +73,11 @@ export class DashboardComponent implements OnInit {
   }
 
   edit(id) {
-    this.router.navigate(['/'+id]);
+    this.router.navigate(['/'+id+'/edit/true']);
   }
 
   view(id) {
-    this.router.navigate(['/'+id+'/view']);
+    this.router.navigate(['/'+id+'/edit/false']);
   }
 
   delete(id) {
