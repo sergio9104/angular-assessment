@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatCheckboxModule,
@@ -21,7 +22,9 @@ import {
   MatSlideToggleModule,
   MatNativeDateModule,
   MatRadioModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatSnackBarModule,
+  MatTooltipModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -35,16 +38,20 @@ import { JobTitleComponent } from './job-title/job-title.component';
 
 import { CountryService } from './services/countries.service';
 import { DeactiveEmployee } from './services/can-deactive.service';
+import { ActiveRoute } from './services/can-active.service';
 
 
 
-import { employeesReducer } from './employees.reducer';
+import { employeesReducer } from './reducers/employees.reducer';
+
+import { DialogEffects } from './effects/dialog.effects';
 
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'newuser', component: CreateEmployeeComponent, canDeactivate: [DeactiveEmployee]},
-  { path: ':id/edit/:edit', component: EditEmployeeComponent }
+  { path: ':id/edit/:edit', component: EditEmployeeComponent,  canActivate: [ActiveRoute], canDeactivate: [DeactiveEmployee]},
+  { path: '**', component: DashboardComponent }
 ];
 
 @NgModule({
@@ -59,6 +66,8 @@ const routes: Routes = [
     BrowserModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot({ employees: employeesReducer }),
+    EffectsModule.forRoot([DialogEffects]),
+    EffectsModule.forFeature([DialogEffects]),
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -80,7 +89,9 @@ const routes: Routes = [
     MatSlideToggleModule,
     MatNativeDateModule,
     MatRadioModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   exports: [
     RouterModule,
@@ -101,9 +112,11 @@ const routes: Routes = [
     MatSlideToggleModule,
     MatNativeDateModule,
     MatRadioModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
-  providers: [CountryService, DeactiveEmployee],
+  providers: [CountryService, DeactiveEmployee, ActiveRoute],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,7 @@
 export const ADD = 'ADD';
 export const EDIT = 'EDIT';
 export const REMOVE = 'REMOVE';
+export const SHOW_MESSAGE = 'SHOW_MESSAGE';
 
 interface objectState {
     id: number;
@@ -74,7 +75,7 @@ export function employeesReducer(state: Array<objectState> = initialState, actio
         }) 
     case REMOVE:
         return state.filter(value => value.id !== action.id);
-
+    case SHOW_MESSAGE:
     default:
       return state;
   }

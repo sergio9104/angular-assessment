@@ -3,7 +3,9 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { REMOVE } from './../employees.reducer';
+import { REMOVE } from '../reducers/employees.reducer';
+import { DialogEffects } from '../effects/dialog.effects';
+import {MatSnackBar} from '@angular/material';
 
 export interface dataStructure {
   id: number;
@@ -22,6 +24,7 @@ export interface dataStructure {
 export class DashboardComponent implements OnInit {
 
   usersSubscribe: Subscription;
+  dialogSubscribe: Subscription;
 
   displayedColumns: string[];
   dataSource: MatTableDataSource<dataStructure>;
@@ -31,7 +34,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private store: Store<any>, private router: Router) {
+  constructor(private store: Store<any>, private router: Router, private dialog: DialogEffects, private snackBar:MatSnackBar) {
     this.displayedColumns = ['name', 'age', 'username', 'hireDate', 'icons'];
   }
 
@@ -52,6 +55,12 @@ export class DashboardComponent implements OnInit {
       this.dataSource.sort = this.sort;
     })
 
+    this.dialogSubscribe = this.dialog.openDialog.subscribe((val) => {
+      this.snackBar.open("Employee deleted", "Accept", {
+        duration: 2000,
+      });
+    })
+
   }
 
   applyFilter(filterValue: string) {
@@ -60,10 +69,6 @@ export class DashboardComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  }
-
-  ngOnDestroy() {
-    this.usersSubscribe.unsubscribe();
   }
 
   calculateAge(birthday) {
@@ -83,6 +88,13 @@ export class DashboardComponent implements OnInit {
   delete(id) {
     this.store.dispatch({ type: REMOVE, id:id});
   }
+
+  ngOnDestroy() {
+    this.usersSubscribe.unsubscribe();
+    this.dialogSubscribe.unsubscribe();
+  }
+
+
 
 
 

@@ -1,7 +1,7 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="mat-elevation-z8">
   <div class="new-employee">
     <div>
-      <h3>Editing: Marco Bottom</h3>
+      <h3>{{title}}: Marco Bottom</h3>
       <mat-form-field>
         <input [max]="maxDateDob" [min]="minDate" matInput [matDatepicker]="Dob" placeholder="Dob *" formControlName="dob">
         <mat-datepicker-toggle matSuffix [for]="Dob" [disabled]="edit"></mat-datepicker-toggle>

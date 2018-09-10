@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobTitleComponent } from './../job-title/job-title.component';
 import { CountryService } from './../services/countries.service';
-import { EDIT } from './../employees.reducer';
+import { EDIT } from '../reducers/employees.reducer';
 
 @Component({
   selector: 'app-edit-employee',
@@ -31,7 +31,8 @@ export class EditEmployeeComponent implements OnInit {
 
   user: any;
 
-  edit:boolean;
+  edit: boolean;
+  title: string;
 
   constructor(private countryService: CountryService, private store: Store<any>, private router: Router, private route: ActivatedRoute) {
     this.maxDateDob = this.getAgeValidation();
@@ -46,9 +47,11 @@ export class EditEmployeeComponent implements OnInit {
   }
 
   onSubmit() {
-    this.store.dispatch({ type: EDIT, data: this.userForm.value });
-    this.isSubmited = true;
-    this.router.navigate(['/']);
+    if (this.userForm.valid) {
+      this.store.dispatch({ type: EDIT, data: this.userForm.value });
+      this.isSubmited = true;
+      this.router.navigate(['/']);
+    }
   }
 
   subscriptions() {
@@ -56,20 +59,21 @@ export class EditEmployeeComponent implements OnInit {
     this.usersSubscribe = this.store.subscribe((users) => {
       const id = this.route.snapshot.paramMap.get('id');
       this.edit = this.route.snapshot.paramMap.get('edit') != 'true';
+      this.title = this.edit ? 'Viewing' : 'Editing'
       this.user = users.employees.find((user) => {
         return user.id == id;
       })
       this.userForm = new FormGroup({
-        id: new FormControl({value: this.user.id, disabled: this.edit}),
-        name: new FormControl({value:this.user.name, disabled: this.edit}, [Validators.required, Validators.maxLength(20)]),
-        dob: new FormControl({value:this.user.dob, disabled: this.edit}, [Validators.required]),
-        country: new FormControl({value:this.user.country, disabled: this.edit}, [Validators.required]),
-        username: new FormControl({value:this.user.username, disabled: this.edit}, [Validators.required, Validators.pattern("^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$"), Validators.maxLength(20)]),
-        hireDate: new FormControl({value:this.user.hireDate, disabled: this.edit}, [Validators.required]),
-        status: new FormControl({value: this.user.status, disabled: this.edit}),
-        area: new FormControl({value:this.user.area, disabled: this.edit}),
-        jobTitle: new FormControl({value:this.user.jobTitle, disabled: this.edit}, [Validators.required]),
-        tipRate: new FormControl({value:this.user.tipRate, disabled: this.edit}),
+        id: new FormControl({ value: this.user.id, disabled: this.edit }),
+        name: new FormControl({ value: this.user.name, disabled: this.edit }, [Validators.required, Validators.maxLength(20)]),
+        dob: new FormControl({ value: this.user.dob, disabled: this.edit }, [Validators.required]),
+        country: new FormControl({ value: this.user.country, disabled: this.edit }, [Validators.required]),
+        username: new FormControl({ value: this.user.username, disabled: this.edit }, [Validators.required, Validators.pattern("^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$"), Validators.maxLength(20)]),
+        hireDate: new FormControl({ value: this.user.hireDate, disabled: this.edit }, [Validators.required]),
+        status: new FormControl({ value: this.user.status, disabled: this.edit }),
+        area: new FormControl({ value: this.user.area, disabled: this.edit }),
+        jobTitle: new FormControl({ value: this.user.jobTitle, disabled: this.edit }, [Validators.required]),
+        tipRate: new FormControl({ value: this.user.tipRate, disabled: this.edit }),
       });
 
       this.tipValidation(this.user.jobTitle);
@@ -82,7 +86,7 @@ export class EditEmployeeComponent implements OnInit {
     });
 
     this.jobTitleSubscription = this.userForm.get('jobTitle').valueChanges.subscribe(val => {
-     this.tipValidation(val);
+      this.tipValidation(val);
     });
 
     this.countriesSubscription = this.countryService.getCountries().subscribe(val => {
@@ -97,7 +101,7 @@ export class EditEmployeeComponent implements OnInit {
     this.usersSubscribe.unsubscribe();
   }
 
-  tipValidation(val){
+  tipValidation(val) {
     if (val === "Waitress" || val === "Dinnig room manage") {
       this.userForm.get('tipRate').setValidators([Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,10})?$"), Validators.maxLength(6)]);
       this.showTipRate = true;

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { JobTitleComponent } from './../job-title/job-title.component';
 import { CountryService } from './../services/countries.service';
-import { ADD } from './../employees.reducer';
+import { ADD } from '../reducers/employees.reducer';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { ADD } from './../employees.reducer';
 export class CreateEmployeeComponent implements OnInit, OnDestroy {
   @ViewChildren(JobTitleComponent) jobTitle !: QueryList<JobTitleComponent>;
 
-  userForm:any;
+  userForm: any;
   areaSubscription: Subscription;
   jobTitleSubscription: Subscription;
   countriesSubscription: Subscription;
@@ -26,9 +26,9 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
   isSubmited: boolean;
   countries: any;
 
-  maxDateDob:Date;
-  maxDateHire:Date;
-  minDate:Date;
+  maxDateDob: Date;
+  maxDateHire: Date;
+  minDate: Date;
 
 
   constructor(private countryService: CountryService, private store: Store<any>, private router: Router) {
@@ -55,9 +55,12 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.store.dispatch({ type: ADD, data: this.userForm.value });
-    this.isSubmited = true;
-    this.router.navigate(['/']);
+    if (this.userForm.valid) {
+      this.store.dispatch({ type: ADD, data: this.userForm.value });
+      this.isSubmited = true;
+      this.router.navigate(['/']);
+    }
+
   }
 
   subscriptions() {
@@ -71,7 +74,7 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
         this.showTipRate = true;
       } else {
         this.userForm.get('tipRate').setValidators([]);
-        this.userForm.get('tipRate').setValue(null);       
+        this.userForm.get('tipRate').setValue(null);
         this.showTipRate = false;
       }
     });
