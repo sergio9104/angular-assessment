@@ -74,7 +74,6 @@ export function employeesReducer(state: Array<objectState> = initialState, actio
             return value.id === action.payload.id ? action.payload : value;
         }) 
     case REMOVE:
-    console.log(action);
         return state.filter(value => value.id !== action.payload);
     case SHOW_MESSAGE:
     default:
