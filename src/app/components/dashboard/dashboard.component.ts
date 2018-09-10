@@ -3,8 +3,8 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { REMOVE } from '../reducers/employees.reducer';
-import { DialogEffects } from '../effects/dialog.effects';
+import { REMOVE } from '../../reducers/employees.reducer';
+import { DialogEffects } from '../../effects/dialog.effects';
 import {MatSnackBar} from '@angular/material';
 
 export interface dataStructure {
@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
   }
 
   delete(id) {
-    this.store.dispatch({ type: REMOVE, id:id});
+    this.store.dispatch({ type: REMOVE, payload:id});
   }
 
   ngOnDestroy() {

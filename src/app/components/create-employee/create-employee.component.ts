@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { JobTitleComponent } from './../job-title/job-title.component';
-import { CountryService } from './../services/countries.service';
-import { ADD } from '../reducers/employees.reducer';
+import { CountryService } from './../../services/countries.service';
+import { ADD } from '../../reducers/employees.reducer';
 
 
 @Component({
@@ -56,7 +56,7 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.userForm.valid) {
-      this.store.dispatch({ type: ADD, data: this.userForm.value });
+      this.store.dispatch({ type: ADD, payload: this.userForm.value });
       this.isSubmited = true;
       this.router.navigate(['/']);
     }

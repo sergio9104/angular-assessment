@@ -68,13 +68,14 @@ const initialState = [{
 export function employeesReducer(state: Array<objectState> = initialState, action) {
   switch (action.type) {
     case ADD:
-      return [...state, action.data];
+      return [...state, action.payload];
     case EDIT:
         return state.map((value) =>{
-            return value.id === action.data.id ? action.data : value;
+            return value.id === action.payload.id ? action.payload : value;
         }) 
     case REMOVE:
-        return state.filter(value => value.id !== action.id);
+    console.log(action);
+        return state.filter(value => value.id !== action.payload);
     case SHOW_MESSAGE:
     default:
       return state;

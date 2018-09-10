@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JobTitleComponent } from './../job-title/job-title.component';
-import { CountryService } from './../services/countries.service';
-import { EDIT } from '../reducers/employees.reducer';
+import { CountryService } from './../../services/countries.service';
+import { EDIT } from '../../reducers/employees.reducer';
 
 @Component({
   selector: 'app-edit-employee',
@@ -48,7 +48,7 @@ export class EditEmployeeComponent implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid) {
-      this.store.dispatch({ type: EDIT, data: this.userForm.value });
+      this.store.dispatch({ type: EDIT, payload: this.userForm.value });
       this.isSubmited = true;
       this.router.navigate(['/']);
     }

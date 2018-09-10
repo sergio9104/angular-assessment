@@ -19,7 +19,5 @@ describe('EditEmployeeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+ 
 });

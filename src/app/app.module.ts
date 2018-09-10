@@ -31,28 +31,19 @@ import { HttpClientModule } from '@angular/common/http';
 import 'hammerjs';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { CreateEmployeeComponent } from './create-employee/create-employee.component';
-import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
-import { JobTitleComponent } from './job-title/job-title.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { CreateEmployeeComponent } from './components/create-employee/create-employee.component';
+import { EditEmployeeComponent } from './components/edit-employee/edit-employee.component';
+import { JobTitleComponent } from './components/job-title/job-title.component';
 
 import { CountryService } from './services/countries.service';
-import { DeactiveEmployee } from './services/can-deactive.service';
-import { ActiveRoute } from './services/can-active.service';
-
-
 
 import { employeesReducer } from './reducers/employees.reducer';
 
 import { DialogEffects } from './effects/dialog.effects';
 
+import {AppRoutingModule} from './app.routing';
 
-const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'newuser', component: CreateEmployeeComponent, canDeactivate: [DeactiveEmployee]},
-  { path: ':id/edit/:edit', component: EditEmployeeComponent,  canActivate: [ActiveRoute], canDeactivate: [DeactiveEmployee]},
-  { path: '**', component: DashboardComponent }
-];
 
 @NgModule({
   declarations: [
@@ -64,11 +55,11 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
     StoreModule.forRoot({ employees: employeesReducer }),
     EffectsModule.forRoot([DialogEffects]),
     EffectsModule.forFeature([DialogEffects]),
     HttpClientModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -116,7 +107,7 @@ const routes: Routes = [
     MatSnackBarModule,
     MatTooltipModule
   ],
-  providers: [CountryService, DeactiveEmployee, ActiveRoute],
+  providers: [CountryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
